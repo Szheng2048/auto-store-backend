@@ -34,7 +34,7 @@ router.post("/sign-up",
     signUp
 )
 
-router.post("sign-in",
+router.post("/sign-in",
     checkIsUndefinedFunc,
     checkIsEmptyFunc,
     signIn
