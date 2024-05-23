@@ -10,7 +10,6 @@ function checkIsEmailFunc(req,res,next){
     const {errorObj} = res.locals
     if(!isEmail(req.body.email)){
         errorObj.wrongEmailFormat = "Must be a valid email"
-        console.log("hello")
     }
     next()
 }

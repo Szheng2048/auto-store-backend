@@ -26,7 +26,7 @@ async function signUp(req,res,next){
                 password : hash
             })
             await createdUser.save()
-            res.json({message:"User successfully created"})
+            res.json({message:"User successfully created",payload:username})
         } catch (error) {
             res.status(500).json({message:"failed", error:error.message})
         }
@@ -34,38 +34,38 @@ async function signUp(req,res,next){
 
 async function signIn(req,res,next){
     const {user,password} = req.body
-    const {errorObj} = req.locals
+    const {errorObj} = res.locals
     if(Object.keys(errorObj).length > 0){
         return res.status(500).json({message:"failure",errorObj})
     }
     try {
-        const foundUser = await User.findOne({email:user})
+        let foundUser = await User.findOne({email:user})
         if(!foundUser){
             foundUser = await User.findOne({username:user})
             if(!foundUser){
                 return res.status(400).json({message:"failed please check username and password"})
             }
+        }
+        const comparedPassword = await bcrypt.compare(password,foundUser.password)
+        console.log(comparedPassword)
+        if(!comparedPassword){
+            return res.json({message:"failed please check username and password"})
         } else {
-            const comparedPassword = await bcrypt.compare(password,foundUser.password)
-            if(!comparedPassword){
-                return res.json({message:"failed please check username and password"})
-            } else {
-                const jwtToken = jwt.sign(
-                    {
-                        email:foundUser.email,
-                        username:foundUser.username,
-                        id:foundUser._id
-                    },
-                    process.env.PRIVATE_JWT_KEY,
-                    {
-                        expiresIn: "1d"
-                    }
-                )
-                res.json({
-                    message:"logged in",
-                    payload: jwtToken
-                })
-            }
+            const jwtToken = jwt.sign(
+                {
+                    email:foundUser.email,
+                    username:foundUser.username,
+                    id:foundUser._id
+                },
+                process.env.PRIVATE_JWT_KEY,
+                {
+                    expiresIn: "1d"
+                }
+            )
+            res.json({
+                message:"logged in",
+                payload: jwtToken
+            })
         }
     } catch (error) {
         res.json({message:"error",error:error.message})
