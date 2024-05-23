@@ -17,7 +17,7 @@ const {
     checkIsValidPhoneNumber
 } = require("./helpers/authMiddleware")
 const {checkJwtToken} = require("../utils/jwtMiddleware")
-
+console.log(process.env.PRIVATE_JWT_KEY)
 router.get("/",(req,res)=>{
     res.json({message:"connected to user app"})
 })
