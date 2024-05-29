@@ -10,7 +10,7 @@ async function createProblem(req,res,next){
             problems
         })
         await createdAppointment.save()
-        res.json({message:"Appointment created", payload:_id})
+        res.json({message:"Appointment created", payload:email})
     } catch (error) {
         res.status(500).json({message:"failed",error:error.message})
     } 
@@ -18,9 +18,9 @@ async function createProblem(req,res,next){
 
 async function deleteProblem(req,res,next){
     try {
-        const solvedProblem = req.body._id
-        const deletedTicket = await Problem.findByIdAndDelete(solvedProblem)
-        res.json({message:"deleted user", payload:deletedTicket})
+        const {id} = req.params
+        const deletedTicket = await Problem.findByIdAndDelete(id)
+        res.json({message:"deleted problem", payload:deletedTicket})
     } catch (error) {
         res.status(500).json({message:"error",error:error.message})
     }

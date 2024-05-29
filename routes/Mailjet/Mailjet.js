@@ -1,11 +1,10 @@
 const express = require("express")
 const router = express.Router()
-const {checkJwtToken} = require("../utils/jwtmiddleware")
+const {checkJwtToken} = require("../utils/jwtMiddleware")
 const mailjet = require("node-mailjet").apiConnect(
     process.env.MAILJET_API_KEY,
     process.env.MAILJET_SECRET_KEY
 )
-console.log(process.env.MAILJET_API_KEY)
 router.post("/send-message",checkJwtToken, async(req,res)=>{
     try {
         const request = mailjet
@@ -15,7 +14,7 @@ router.post("/send-message",checkJwtToken, async(req,res)=>{
                             {
                                 From:{
                                     Email:"stevenzheng525525@gmail.com",
-                                    Name:"Steven Zheng"
+                                    Name:"Jerome Leroy"
                                 },
                             To:[
                                 {

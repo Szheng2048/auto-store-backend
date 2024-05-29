@@ -7,7 +7,7 @@ const {
 
 
 router.post("/create-new-problem",createProblem)
-router.post("/delete-problem",deleteProblem)
+router.delete("/delete-problem/:id",deleteProblem)
 
 
 
