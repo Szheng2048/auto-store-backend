@@ -86,6 +86,21 @@ async function getUserById(req,res){
     }
 }
 
+// async function isItUnique(req,res){
+//     const info = req.params
+//     try {
+//         const userUsername = await User.findOne({username:info.username})
+//         const userEmail = await User.findOne({username:info.email})
+//         if(userUsername || userEmail){
+//             res.json({message:"user is not unique",payload:[userUsername,userEmail]})
+//         } else {
+//             res.json({})
+//         }
+//     } catch (error) {
+        
+//     }
+// }
+
 async function updateUser(req,res){
     try {
         const incomingData = req.body
